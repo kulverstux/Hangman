@@ -63,8 +63,6 @@ public class HangmanClass
         SpausdintiSpetasRaides(spetosRaides);
         SpausdintiSpetusZodzius(spetiZodziai);
     }
-
-
     public static bool ArToksSpejimasJauBuvo(string arJauSpetas, List<string> spetiZodziai)
     {
         bool toksZodisJauSpetas = false;
@@ -229,7 +227,7 @@ public class HangmanClass
     }
     public static void SpejimuPiesinys(int bandymai)
     {
-        Console.Clear();
+       // Console.Clear();
         Console.WriteLine("+______________");
         switch (bandymai)
         {
@@ -329,10 +327,10 @@ public class HangmanClass
 
         while (bandymai < maxBandymuSkaicius)
         {
-            Console.Clear();
+            //Console.Clear();
             SpejimuPiesinys(bandymai);                        //cia turi buti piesinys
-            Console.WriteLine($"bandymas Nr. {bandymai}");
-            Console.WriteLine($"bandymas Nr. {zodisKuriNorimaAtspetiPaduotasKaipString}");
+           //Console.WriteLine($"bandymas Nr. {bandymai}");
+           // Console.WriteLine($"bandymas Nr. {zodisKuriNorimaAtspetiPaduotasKaipString}");
             Console.WriteLine("Iveskite spejama raide:");
             string vartotojoIvestis = Console.ReadLine().ToUpper();
 
