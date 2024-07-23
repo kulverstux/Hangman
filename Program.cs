@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Hangman;
+using System;
 using System.Collections.Generic;
 public class HangmanClass
 {
+    private static GameParameters gameParameters = new GameParameters();
     public static List<char> ZodisKuriNorimaAtspetiBruksneliais(int ilgis)
     {
         List<char> zodisBruksneliais = new();
@@ -28,10 +30,10 @@ public class HangmanClass
         else
             return true;
     }
-    public static void SpausdintiSpetasRaides(List<char> spetosRaides)
+    public static void SpausdintiSpetasRaides()
     {
         Console.WriteLine("Spetos raides:");
-        foreach (var item in spetosRaides)
+        foreach (var item in gameParameters.SpetosRaides)
         {
             Console.Write($"{item}, ");
         }
@@ -57,10 +59,11 @@ public class HangmanClass
         }
         Console.WriteLine();
     }
-    public static void VisuSarasuSpausdinimas(List<char> spetosRaides, List<string> spetiZodziai, List<char> zodisBruksneliais)
+    public static void VisuSarasuSpausdinimas(List<string> spetiZodziai, List<char> zodisBruksneliais)
     {
+
         SpausdintiZodiSuBruksneliais(zodisBruksneliais);
-        SpausdintiSpetasRaides(spetosRaides);
+        SpausdintiSpetasRaides();
         SpausdintiSpetusZodzius(spetiZodziai);
     }
     public static bool ArToksSpejimasJauBuvo(string arJauSpetas, List<string> spetiZodziai)
@@ -78,10 +81,10 @@ public class HangmanClass
         }
         return false;
     }
-    public static bool ArToksSpejimasJauBuvo(char arJauSpetas, List<char> spetosRaides)
+    public static bool ArToksSpejimasJauBuvo(char arJauSpetas)
     {
         bool toksZodisJauSpetas = false;
-        foreach (var item in spetosRaides)
+        foreach (var item in gameParameters.SpetosRaides)
         {
             if (arJauSpetas == item)
             {
@@ -100,6 +103,7 @@ public class HangmanClass
         {
             case 1:
                 {
+                    gameParameters.TemosPavadinimas = "SALYS";
                     string[] salys = { "Latvija", "Estija", "Bulgarija", "Kinija", "Mozambikas", "Tailandas", "Danija", "Prancuzija", "Uganda", "Alzyras", "Zibutis" };
                     int ilgis = salys.Length;
                     int atsitiktinisPasirinkimas = rand.Next(ilgis);
@@ -108,6 +112,7 @@ public class HangmanClass
                 }
             case 2:
                 {
+                    gameParameters.TemosPavadinimas = "MIESTAI";
                     string[] miestai = { "Vilnius", "Kaunas", "Venecija", "Kedainiai", "Paryzius", "Marokas", "Kopenhaga", "Orleanas", "Berlynas", "Pasvalys", "Visaginas" };
                     int ilgis = miestai.Length;
                     int atsitiktinisPasirinkimas = rand.Next(ilgis);
@@ -116,6 +121,7 @@ public class HangmanClass
                 }
             case 3:
                 {
+                    gameParameters.TemosPavadinimas = "MEDZIAI";
                     string[] medziai = { "Berzas", "Uosis", "Liepa", "Bukas", "Azuolas", "Pusis", "Egle", "Kukmedis", "Maumedis", "Klevas", "Baltalksnis" };
                     int ilgis = medziai.Length;
                     int atsitiktinisPasirinkimas = rand.Next(ilgis);
@@ -123,18 +129,18 @@ public class HangmanClass
                     return zodisKuriNorimaAtspetiPaduotasKaipString.ToUpper();
                 }
             default:
-                break;
+                return "";
         }
-        return "Programos klaida bandant pasirinkti is temu saraso";
+        //return "Programos klaida bandant pasirinkti is temu saraso";
 
     }
-    public static List<char> PatikrintiArSpejimasGeras(List<char> spetosRaides, char vartotojoSpetaRaide, string zodisKuriNorimaAtspetiPaduotasKaipString, List<char> zodisBruksneliais, out bool klaida)
+    public static List<char> PatikrintiArSpejimasGeras(char vartotojoSpetaRaide, string zodisKuriNorimaAtspetiPaduotasKaipString, List<char> zodisBruksneliais, out bool klaida)
     {
 
-        spetosRaides.Add(vartotojoSpetaRaide);
+        gameParameters.SpetosRaides.Add(vartotojoSpetaRaide);
         int indexas = 0;
         bool arTeisingasSpejimas = false;
-        bool kla = false;
+        klaida = false;
 
         foreach (var item in zodisKuriNorimaAtspetiPaduotasKaipString)
         {
@@ -149,14 +155,13 @@ public class HangmanClass
         if (arTeisingasSpejimas)
         {
             Console.WriteLine("Jus atspejote raide!");
-            kla = false;
+            klaida = false;
         }
         else
         {
             Console.WriteLine("Deja tokios raides nera");
-            kla = true;
+            klaida = true;
         }
-        klaida = kla;
         return zodisBruksneliais;
     }
 
@@ -181,7 +186,7 @@ public class HangmanClass
     {
         bool arPasirinkimasKlaidingas = true;
 
-        while (arPasirinkimasKlaidingas)
+        do
         {
             Console.WriteLine("Pasirinkite tema, irasydami jos numeri:");
             string irasas = Console.ReadLine();
@@ -223,6 +228,8 @@ public class HangmanClass
                 arPasirinkimasKlaidingas = true;
             }
         }
+        while (arPasirinkimasKlaidingas);
+
         return "Klaida renkantis temos numeri";
     }
     public static void SpejimuPiesinys(int bandymai)
@@ -317,7 +324,6 @@ public class HangmanClass
 
         var zodisBruksneliais = ZodisKuriNorimaAtspetiBruksneliais(zodzioIlgis);
 
-        List<char> spetosRaides = new();
         List<string> spetiZodziai = new();
 
         SpausdintiZodiSuBruksneliais(zodisBruksneliais);
@@ -327,8 +333,12 @@ public class HangmanClass
 
         while (bandymai < maxBandymuSkaicius)
         {
-            //Console.Clear();
-            SpejimuPiesinys(bandymai);                        //cia turi buti piesinys
+            Console.Clear();
+            Console.WriteLine($"Tema: {gameParameters.TemosPavadinimas}");
+            VisuSarasuSpausdinimas(spetiZodziai, zodisBruksneliais);
+            SpejimuPiesinys(bandymai);
+
+            //cia turi buti piesinys
            //Console.WriteLine($"bandymas Nr. {bandymai}");
            // Console.WriteLine($"bandymas Nr. {zodisKuriNorimaAtspetiPaduotasKaipString}");
             Console.WriteLine("Iveskite spejama raide:");
@@ -366,14 +376,14 @@ public class HangmanClass
                     {
                         Console.WriteLine("nepavyko atspeti zodzio...");
                         spetiZodziai.Add(vartotojoIvestis);
-                        VisuSarasuSpausdinimas(spetosRaides, spetiZodziai, zodisBruksneliais);
+                        VisuSarasuSpausdinimas(spetiZodziai, zodisBruksneliais);
                         bandymai++;
                     }
                 }
                 else
                 {
-                    char vartotojoSpetaRaide = char.Parse(vartotojoIvestis);
-                    while (ArToksSpejimasJauBuvo(vartotojoSpetaRaide, spetosRaides))
+                    char vartotojoSpetaRaide = vartotojoIvestis[0];
+                    while (ArToksSpejimasJauBuvo(vartotojoSpetaRaide))
                     {
                         var pasikartojimas = vartotojoSpetaRaide;
                         vartotojoIvestis = Console.ReadLine().ToUpper();
@@ -383,9 +393,9 @@ public class HangmanClass
                             vartotojoSpetaRaide = pasikartojimas;
                         }
                     }
-                    zodisBruksneliais = PatikrintiArSpejimasGeras(spetosRaides, vartotojoSpetaRaide, zodisKuriNorimaAtspetiPaduotasKaipString, zodisBruksneliais, out bool klaida);
+                    zodisBruksneliais = PatikrintiArSpejimasGeras(vartotojoSpetaRaide, zodisKuriNorimaAtspetiPaduotasKaipString, zodisBruksneliais, out bool klaida);
 
-                    VisuSarasuSpausdinimas(spetosRaides, spetiZodziai, zodisBruksneliais);
+                    
                     if (klaida)
                     {
                         bandymai++;
