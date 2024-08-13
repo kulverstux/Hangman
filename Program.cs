@@ -3,18 +3,17 @@ using System;
 using System.Collections.Generic;
 public class HangmanClass
 {
-
-    //ar yra
+    
     private static GameParameters gameParameters = new GameParameters();
-    public static List<char> ZodisKuriNorimaAtspetiBruksneliais(int ilgis)
+    private static PrintOutput printOutput = new();
+    public static void ZodisKuriNorimaAtspetiBruksneliais(int ilgis)
     {
-        List<char> zodisBruksneliais = new();
+        
         while (ilgis > 0)
         {
-            zodisBruksneliais.Add('_');
+            gameParameters.ZodisBruksneliais.Add('_');
             ilgis--;
         }
-        return zodisBruksneliais;
     }
     public static bool PatikrintiVartotojoIvesti(string ivestis)
     {
@@ -32,46 +31,12 @@ public class HangmanClass
         else
             return true;
     }
-    public static void SpausdintiSpetasRaides()
-    {
-        Console.WriteLine("Spetos raides:");
-        foreach (var item in gameParameters.SpetosRaides)
-        {
-            Console.Write($"{item}, ");
-        }
-        Console.WriteLine();
-        Console.WriteLine("-----------");
-    }
-    public static void SpausdintiSpetusZodzius(List<string> spetiZodziai)
-    {
-        Console.WriteLine("Speti zodziai:");
-        foreach (var item in spetiZodziai)
-        {
-            Console.Write($"{item}, ");
-        }
-        Console.WriteLine();
-        Console.WriteLine("-----------");
+    
 
-    }
-    public static void SpausdintiZodiSuBruksneliais(List<char> zodisBruksneliais)
-    {
-        foreach (var item in zodisBruksneliais)
-        {
-            Console.Write($"{item} ");
-        }
-        Console.WriteLine();
-    }
-    public static void VisuSarasuSpausdinimas(List<string> spetiZodziai, List<char> zodisBruksneliais)
-    {
-
-        SpausdintiZodiSuBruksneliais(zodisBruksneliais);
-        SpausdintiSpetasRaides();
-        SpausdintiSpetusZodzius(spetiZodziai);
-    }
-    public static bool ArToksSpejimasJauBuvo(string arJauSpetas, List<string> spetiZodziai)
+    public static bool ArToksSpejimasJauBuvo(string arJauSpetas)
     {
         bool toksZodisJauSpetas = false;
-        foreach (var item in spetiZodziai)
+        foreach (var item in gameParameters.SpetiZodziai)
         {
             if (arJauSpetas == item)
             {
@@ -136,7 +101,7 @@ public class HangmanClass
         //return "Programos klaida bandant pasirinkti is temu saraso";
 
     }
-    public static List<char> PatikrintiArSpejimasGeras(char vartotojoSpetaRaide, string zodisKuriNorimaAtspetiPaduotasKaipString, List<char> zodisBruksneliais, out bool klaida)
+    public static List<char> PatikrintiArSpejimasGeras(char vartotojoSpetaRaide, string zodisKuriNorimaAtspetiPaduotasKaipString, out bool klaida)
     {
 
         gameParameters.SpetosRaides.Add(vartotojoSpetaRaide);
@@ -148,7 +113,7 @@ public class HangmanClass
         {
             if (vartotojoSpetaRaide == item)
             {
-                zodisBruksneliais[indexas] = vartotojoSpetaRaide;
+                gameParameters.ZodisBruksneliais[indexas] = vartotojoSpetaRaide;
                 arTeisingasSpejimas = true;
             }
             indexas++;
@@ -164,7 +129,7 @@ public class HangmanClass
             Console.WriteLine("Deja tokios raides nera");
             klaida = true;
         }
-        return zodisBruksneliais;
+        return gameParameters.ZodisBruksneliais;
     }
 
     public static void AtspausdintiPagrindiniPasirinkimuMeniu()
@@ -311,6 +276,16 @@ public class HangmanClass
 
 
     }
+    public static bool ArVisosRaidesAtspetos()
+    {
+            bool klaida = false;
+            foreach (var item in gameParameters.ZodisBruksneliais)
+            {
+                    if (item == '_') klaida = true;
+            }
+        return klaida;         
+
+    }
     public static void Main(string[] args)
     {
         bool arPirmaKartaPaleistaPrograma = true;
@@ -318,17 +293,13 @@ public class HangmanClass
         if (arPirmaKartaPaleistaPrograma)
         {
             AtspausdintiPagrindiniPasirinkimuMeniu();
-            arPirmaKartaPaleistaPrograma = false;
         }
 
         string zodisKuriNorimaAtspetiPaduotasKaipString = PagrindinioPasirinkimuMeniuTemosPasirinkimas();
         int zodzioIlgis = zodisKuriNorimaAtspetiPaduotasKaipString.Length;
-
-        var zodisBruksneliais = ZodisKuriNorimaAtspetiBruksneliais(zodzioIlgis);
-
-        List<string> spetiZodziai = new();
-
-        SpausdintiZodiSuBruksneliais(zodisBruksneliais);
+        ZodisKuriNorimaAtspetiBruksneliais(zodzioIlgis);
+        printOutput.SpausdintiZodiSuBruksneliais();
+        //SpausdintiZodiSuBruksneliais();
 
         int bandymai = 0;
         int maxBandymuSkaicius = 7;
@@ -337,12 +308,12 @@ public class HangmanClass
         {
             Console.Clear();
             Console.WriteLine($"Tema: {gameParameters.TemosPavadinimas}");
-            VisuSarasuSpausdinimas(spetiZodziai, zodisBruksneliais);
+            printOutput.VisuSarasuSpausdinimas();
             SpejimuPiesinys(bandymai);
 
             //cia turi buti piesinys
-           //Console.WriteLine($"bandymas Nr. {bandymai}");
-           // Console.WriteLine($"bandymas Nr. {zodisKuriNorimaAtspetiPaduotasKaipString}");
+            //Console.WriteLine($"bandymas Nr. {bandymai}");
+            // Console.WriteLine($"bandymas Nr. {zodisKuriNorimaAtspetiPaduotasKaipString}");
             Console.WriteLine("Iveskite spejama raide:");
             string vartotojoIvestis = Console.ReadLine().ToUpper();
 
@@ -351,7 +322,7 @@ public class HangmanClass
                 if (vartotojoIvestis.Length > 1)
                 {
 
-                    while (ArToksSpejimasJauBuvo(vartotojoIvestis, spetiZodziai))
+                    while (ArToksSpejimasJauBuvo(vartotojoIvestis))
                     {
                         var pasikartojimas = vartotojoIvestis;
 
@@ -377,8 +348,8 @@ public class HangmanClass
                     else
                     {
                         Console.WriteLine("nepavyko atspeti zodzio...");
-                        spetiZodziai.Add(vartotojoIvestis);
-                        VisuSarasuSpausdinimas(spetiZodziai, zodisBruksneliais);
+                        gameParameters.SpetiZodziai.Add(vartotojoIvestis);
+                        printOutput.VisuSarasuSpausdinimas();
                         bandymai++;
                     }
                 }
@@ -389,15 +360,16 @@ public class HangmanClass
                     {
                         var pasikartojimas = vartotojoSpetaRaide;
                         vartotojoIvestis = Console.ReadLine().ToUpper();
-                        vartotojoSpetaRaide = char.Parse(vartotojoIvestis);
+                        vartotojoSpetaRaide = vartotojoIvestis[0];
+
                         if (!PatikrintiVartotojoIvesti(vartotojoIvestis))
                         {
                             vartotojoSpetaRaide = pasikartojimas;
                         }
                     }
-                    zodisBruksneliais = PatikrintiArSpejimasGeras(vartotojoSpetaRaide, zodisKuriNorimaAtspetiPaduotasKaipString, zodisBruksneliais, out bool klaida);
+                    gameParameters.ZodisBruksneliais = PatikrintiArSpejimasGeras(vartotojoSpetaRaide, zodisKuriNorimaAtspetiPaduotasKaipString, out bool klaida);
 
-                    
+
                     if (klaida)
                     {
                         bandymai++;
@@ -405,13 +377,21 @@ public class HangmanClass
 
                 }
             }
-
+            if (!ArVisosRaidesAtspetos())
+            {
+                Console.Clear();
+                Console.WriteLine("Sveikiname! Jus laimejote");
+                Console.WriteLine($"Teisingas zodis buvo : {zodisKuriNorimaAtspetiPaduotasKaipString}");
+                bandymai = maxBandymuSkaicius + 1;
+            }
         }
         if (bandymai == maxBandymuSkaicius)
         {
+            Console.Clear();
+            SpejimuPiesinys(bandymai);
             Console.WriteLine("Deja, pralaimejote...");
             Console.WriteLine($"Teisingas zodis buvo : {zodisKuriNorimaAtspetiPaduotasKaipString}");
-
         }
+        
     }
 }
