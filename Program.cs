@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 public class HangmanClass
 {
+
+    //ar yra
     private static GameParameters gameParameters = new GameParameters();
     public static List<char> ZodisKuriNorimaAtspetiBruksneliais(int ilgis)
     {
