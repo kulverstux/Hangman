@@ -1,24 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Hangman
+﻿namespace Hangman
 {
     public class PrintOutput
     {
-        private GameParameters gameParameters;
+        private readonly GameParameters _gameParameters;
         public PrintOutput(GameParameters gameParameters)
         {
-            this.gameParameters = gameParameters;
+            _gameParameters = gameParameters;
         }
-    
 
         public void SpausdintiSpetasRaides()
         {
             Console.WriteLine("Spetos raides:");
-            foreach (var item in gameParameters.SpetosRaides)
+            foreach (var item in _gameParameters.SpetosRaides)
             {
                 Console.Write($"{item}, ");
             }
@@ -29,7 +22,7 @@ namespace Hangman
         public void SpausdintiSpetusZodzius()
         {
             Console.WriteLine("Speti zodziai:");
-            foreach (var item in gameParameters.SpetiZodziai)
+            foreach (var item in _gameParameters.SpetiZodziai)
             {
                 Console.Write($"{item}, ");
             }
@@ -37,20 +30,23 @@ namespace Hangman
             Console.WriteLine("-----------");
 
         }
+
         public void SpausdintiZodiSuBruksneliais()
         {
-            foreach (var item in gameParameters.ZodisBruksneliais)
+            foreach (var item in _gameParameters.ZodisBruksneliais)
             {
                 Console.Write($"{item} ");
             }
             Console.WriteLine();
         }
+
         public void VisuSarasuSpausdinimas()
         {
             SpausdintiZodiSuBruksneliais();
             SpausdintiSpetasRaides();
             SpausdintiSpetusZodzius();
         }
+
         public void AtspausdintiPagrindiniPasirinkimuMeniu()
         {
             Console.Clear();
@@ -68,10 +64,10 @@ namespace Hangman
             Console.WriteLine("3. Medziu pavadinimai");
         }
 
-        public void SpejimuPiesinys(int bandymai)
+        public void SpejimuPiesinys()
         {
             Console.WriteLine("+______________");
-            switch (bandymai)
+            switch (_gameParameters.Bandymai)
             {
                 case 0:
                     {
@@ -141,8 +137,6 @@ namespace Hangman
             }
             Console.WriteLine("|");
             Console.WriteLine("|\\_____________");
-
-
         }
     }
 }

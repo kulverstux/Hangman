@@ -1,9 +1,9 @@
 ﻿using Hangman;
 public class HangmanClass
 {
-    private static UI userInterf = new UI();
+    private static Game game = new Game();
     public static void Main(string[] args)
     { 
-       userInterf.Start();     
+       game.Start();     
     }
 }
