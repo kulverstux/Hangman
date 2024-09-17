@@ -9,7 +9,7 @@ namespace Hangman
     public class CheckGuess
     {
         private GameParameters gameParameters;
-        public CheckGuess (GameParameters gameParameters)
+        public CheckGuess(GameParameters gameParameters)
         {
             this.gameParameters = gameParameters;
         }
@@ -45,7 +45,7 @@ namespace Hangman
         }
 
 
-        public  List<char> PatikrintiArSpejimasGeras(char vartotojoSpetaRaide, string zodisKuriNorimaAtspetiPaduotasKaipString, out bool klaida)
+        public List<char> PatikrintiArSpejimasGeras(char vartotojoSpetaRaide, string zodisKuriNorimaAtspetiPaduotasKaipString, out bool klaida)
         {
 
             gameParameters.SpetosRaides.Add(vartotojoSpetaRaide);

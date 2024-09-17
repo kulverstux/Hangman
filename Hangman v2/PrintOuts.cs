@@ -1,60 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Hangman
+﻿namespace Hangman_v2
 {
-    public class PrintOutput
+    public class PrintOuts
     {
-        private GameParameters gameParameters;
-        public PrintOutput(GameParameters gameParameters)
-        {
-            this.gameParameters = gameParameters;
-        }
+      //  GameParameters gameParameters;
+        //public PrintOuts(GameParameters gameParameters)
+        //{
+        //    this.gameParameters = gameParameters;
+        //}
 
-
-        public void SpausdintiSpetasRaides()
+        public void PrintWordInDashes()
         {
-            Console.WriteLine("Spetos raides:");
-            foreach (var item in gameParameters.SpetosRaides)
-            {
-                Console.Write($"{item}, ");
-            }
-            Console.WriteLine();
-            Console.WriteLine("-----------");
-        }
 
-        public void SpausdintiSpetusZodzius()
-        {
-            Console.WriteLine("Speti zodziai:");
-            foreach (var item in gameParameters.SpetiZodziai)
-            {
-                Console.Write($"{item}, ");
-            }
-            Console.WriteLine();
-            Console.WriteLine("-----------");
-
-        }
-        public void SpausdintiZodiSuBruksneliais()
-        {
-            foreach (var item in gameParameters.ZodisBruksneliais)
+            foreach (var item in GameParameters.WordInDashes)
             {
                 Console.Write($"{item} ");
             }
-            Console.WriteLine();
         }
-        public void VisuSarasuSpausdinimas()
-        {
-            SpausdintiZodiSuBruksneliais();
-            SpausdintiSpetasRaides();
-            SpausdintiSpetusZodzius();
-        }
-        public void AtspausdintiPagrindiniPasirinkimuMeniu()
+        public void PrintMainMenu()
         {
             Console.Clear();
-            Console.WriteLine("Zaidimas PAKARUOKLIS");
+            Console.WriteLine("     HANGMAN");
             Console.WriteLine("+______________");
             Console.WriteLine("|/          |");
             Console.WriteLine("|           O");
@@ -62,16 +27,17 @@ namespace Hangman
             Console.WriteLine("|          / \\");
             Console.WriteLine("|");
             Console.WriteLine("|\\_____________");
-            Console.WriteLine("Galimos temos:");
-            Console.WriteLine("1. Salys");
-            Console.WriteLine("2. Miestai");
-            Console.WriteLine("3. Medziu pavadinimai");
+            Console.WriteLine("Possible topics:");
+            Console.WriteLine("1. Countries");
+            Console.WriteLine("2. Cities");
+            Console.WriteLine("3. Seas");
+
         }
 
-        public void SpejimuPiesinys(int bandymai)
+        public static void HangmanDrawing(int attempts)
         {
             Console.WriteLine("+______________");
-            switch (bandymai)
+            switch (attempts)
             {
                 case 0:
                     {

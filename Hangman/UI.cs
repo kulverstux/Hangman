@@ -41,102 +41,102 @@ namespace Hangman
         public void Start()
         {
 
-                _printOutput.AtspausdintiPagrindiniPasirinkimuMeniu();
+            _printOutput.AtspausdintiPagrindiniPasirinkimuMeniu();
 
-                string zodisKuriNorimaAtspetiPaduotasKaipString = WordInit();
+            string zodisKuriNorimaAtspetiPaduotasKaipString = WordInit();
             Console.WriteLine($"zodis: {zodisKuriNorimaAtspetiPaduotasKaipString}");
-                _printOutput.SpausdintiZodiSuBruksneliais();
-                int bandymai = 0;
-                int maxBandymuSkaicius = _gameParameters.MaxBandymuSkaicius;
-                
-                bool zaidimasTesiamas = true;
-                bool atspetasZodis = false;
-                while (zaidimasTesiamas)
+            _printOutput.SpausdintiZodiSuBruksneliais();
+            int bandymai = 0;
+            int maxBandymuSkaicius = _gameParameters.MaxBandymuSkaicius;
+
+            bool zaidimasTesiamas = true;
+            bool atspetasZodis = false;
+            while (zaidimasTesiamas)
+            {
+                Console.Clear();
+                Console.WriteLine($"Tema: {_gameParameters.TemosPavadinimas}");
+                _printOutput.VisuSarasuSpausdinimas();
+                _printOutput.SpejimuPiesinys(bandymai);
+
+                Console.WriteLine("Iveskite spejama raide:");
+                string vartotojoIvestis = Console.ReadLine().ToUpper();
+
+                if (_checkInputs.PatikrintiVartotojoIvesti(vartotojoIvestis))
                 {
-                    Console.Clear();
-                    Console.WriteLine($"Tema: {_gameParameters.TemosPavadinimas}");
-                    _printOutput.VisuSarasuSpausdinimas();
-                    _printOutput.SpejimuPiesinys(bandymai);
-
-                    Console.WriteLine("Iveskite spejama raide:");
-                    string vartotojoIvestis = Console.ReadLine().ToUpper();
-
-                    if (_checkInputs.PatikrintiVartotojoIvesti(vartotojoIvestis))
+                    if (vartotojoIvestis.Length > 1)
                     {
-                        if (vartotojoIvestis.Length > 1)
+
+                        while (_checkGuess.ArToksSpejimasJauBuvo(vartotojoIvestis))
                         {
+                            var pasikartojimas = vartotojoIvestis;
 
-                            while (_checkGuess.ArToksSpejimasJauBuvo(vartotojoIvestis))
+                            vartotojoIvestis = Console.ReadLine().ToUpper();
+                            if (!_checkInputs.PatikrintiVartotojoIvesti(vartotojoIvestis))
                             {
-                                var pasikartojimas = vartotojoIvestis;
-
-                                vartotojoIvestis = Console.ReadLine().ToUpper();
-                                if (!_checkInputs.PatikrintiVartotojoIvesti(vartotojoIvestis))
-                                {
-                                    vartotojoIvestis = pasikartojimas;
-                                }
-                                else
-                                if (vartotojoIvestis.Length <= 1)
-                                {
-                                    Console.WriteLine("Zodi turi sudaryti daugiau nei vienas simbolis");
-                                    vartotojoIvestis = pasikartojimas;
-                                }
-                            }
-
-                            if (vartotojoIvestis == zodisKuriNorimaAtspetiPaduotasKaipString)
-                            {
-                                atspetasZodis = true;
+                                vartotojoIvestis = pasikartojimas;
                             }
                             else
+                            if (vartotojoIvestis.Length <= 1)
                             {
-                                Console.WriteLine("nepavyko atspeti zodzio...");
-                                _gameParameters.SpetiZodziai.Add(vartotojoIvestis);
-                                _printOutput.VisuSarasuSpausdinimas();
-                                bandymai++;
+                                Console.WriteLine("Zodi turi sudaryti daugiau nei vienas simbolis");
+                                vartotojoIvestis = pasikartojimas;
                             }
+                        }
+
+                        if (vartotojoIvestis == zodisKuriNorimaAtspetiPaduotasKaipString)
+                        {
+                            atspetasZodis = true;
                         }
                         else
                         {
-                            char vartotojoSpetaRaide = vartotojoIvestis[0];
-                            while (_checkGuess.ArToksSpejimasJauBuvo(vartotojoSpetaRaide))
-                            {
-                                var pasikartojimas = vartotojoSpetaRaide;
-                                vartotojoIvestis = Console.ReadLine().ToUpper();
-                                vartotojoSpetaRaide = vartotojoIvestis[0];
-
-                                if (!_checkInputs.PatikrintiVartotojoIvesti(vartotojoIvestis))
-                                {
-                                    vartotojoSpetaRaide = pasikartojimas;
-                                }
-                            }
-                            _gameParameters.ZodisBruksneliais = _checkGuess.PatikrintiArSpejimasGeras(vartotojoSpetaRaide, zodisKuriNorimaAtspetiPaduotasKaipString, out bool klaida);
-
-
-                            if (klaida)
-                            {
-                                bandymai++;
-                                if (bandymai == maxBandymuSkaicius) zaidimasTesiamas = false;
-                            }
-
+                            Console.WriteLine("nepavyko atspeti zodzio...");
+                            _gameParameters.SpetiZodziai.Add(vartotojoIvestis);
+                            _printOutput.VisuSarasuSpausdinimas();
+                            bandymai++;
                         }
                     }
-                    if (!zaidimasTesiamas)
-                    {
-                        Console.Clear();
-                        _printOutput.SpejimuPiesinys(bandymai);
-                        Console.WriteLine("Deja, pralaimejote...");
-                        Console.WriteLine($"Teisingas zodis buvo : {zodisKuriNorimaAtspetiPaduotasKaipString}");
-                        zaidimasTesiamas = false;
-                    }
                     else
-                    if (atspetasZodis ^ !_checkGuess.ArVisosRaidesAtspetos())
                     {
-                        Console.Clear();
-                        Console.WriteLine("Sveikiname! Jus laimejote");
-                        Console.WriteLine($"Teisingas zodis buvo : {zodisKuriNorimaAtspetiPaduotasKaipString}");
-                        zaidimasTesiamas = false;
+                        char vartotojoSpetaRaide = vartotojoIvestis[0];
+                        while (_checkGuess.ArToksSpejimasJauBuvo(vartotojoSpetaRaide))
+                        {
+                            var pasikartojimas = vartotojoSpetaRaide;
+                            vartotojoIvestis = Console.ReadLine().ToUpper();
+                            vartotojoSpetaRaide = vartotojoIvestis[0];
+
+                            if (!_checkInputs.PatikrintiVartotojoIvesti(vartotojoIvestis))
+                            {
+                                vartotojoSpetaRaide = pasikartojimas;
+                            }
+                        }
+                        _gameParameters.ZodisBruksneliais = _checkGuess.PatikrintiArSpejimasGeras(vartotojoSpetaRaide, zodisKuriNorimaAtspetiPaduotasKaipString, out bool klaida);
+
+
+                        if (klaida)
+                        {
+                            bandymai++;
+                            if (bandymai == maxBandymuSkaicius) zaidimasTesiamas = false;
+                        }
+
                     }
                 }
+                if (!zaidimasTesiamas)
+                {
+                    Console.Clear();
+                    _printOutput.SpejimuPiesinys(bandymai);
+                    Console.WriteLine("Deja, pralaimejote...");
+                    Console.WriteLine($"Teisingas zodis buvo : {zodisKuriNorimaAtspetiPaduotasKaipString}");
+                    zaidimasTesiamas = false;
+                }
+                else
+                if (atspetasZodis ^ !_checkGuess.ArVisosRaidesAtspetos())
+                {
+                    Console.Clear();
+                    Console.WriteLine("Sveikiname! Jus laimejote");
+                    Console.WriteLine($"Teisingas zodis buvo : {zodisKuriNorimaAtspetiPaduotasKaipString}");
+                    zaidimasTesiamas = false;
+                }
+            }
 
         }
     }
