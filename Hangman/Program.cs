@@ -1,6 +1,7 @@
 ﻿using Hangman;
 public class HangmanClass
 {
+<<<<<<< HEAD
     private readonly GameParameters _gameParameters;
     private readonly WordSelector _word;
     private readonly PrintOuts _wordInDashes;
@@ -11,6 +12,12 @@ public class HangmanClass
     {
         _gameParameters = new();
         _word = new(_gameParameters);
+=======
+    private static Game game = new Game();
+    public static void Main(string[] args)
+    { 
+       game.Start();     
+>>>>>>> b8b778829094d367433d491cb4b0ada9cae98a61
     }
     public static void Main(string[] args)
     {
