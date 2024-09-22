@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Hangman_v2
+﻿namespace Hangman_v2
 {
     public class CheckUserInput
     {
-        public bool BasicChecks(string userInput)
+        public static bool BasicChecks(string userInput)
         {
             {
                 userInput = userInput.Trim();

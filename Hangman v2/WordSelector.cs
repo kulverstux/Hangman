@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,13 +9,8 @@ namespace Hangman_v2
 {
     public class WordSelector
     {
-       // private GameParameters gameParameters;
+        public static string ChosenWord { get; set; } = "";
         string wordToGuess = "";
-        //public WordSelector (GameParameters gameParameters)
-        //{
-        //    this.gameParameters = gameParameters;
-        //}
-
         public string SelectWord(int userChoice)
         {
             Random rand = new();
@@ -59,6 +55,12 @@ namespace Hangman_v2
             {
                 Console.WriteLine("Error: failed word selection"); 
             }
+        }
+        public void WordSelected(string userInput)
+        {
+            ChosenWord = SelectWord(int.Parse(userInput));
+            SetUpWordInDashes();
+
         }
     }
 }

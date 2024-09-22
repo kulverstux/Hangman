@@ -2,12 +2,6 @@
 {
     public class PrintOuts
     {
-      //  GameParameters gameParameters;
-        //public PrintOuts(GameParameters gameParameters)
-        //{
-        //    this.gameParameters = gameParameters;
-        //}
-
         public void PrintWordInDashes()
         {
 
@@ -18,15 +12,7 @@
         }
         public void PrintMainMenu()
         {
-            Console.Clear();
-            Console.WriteLine("     HANGMAN");
-            Console.WriteLine("+______________");
-            Console.WriteLine("|/          |");
-            Console.WriteLine("|           O");
-            Console.WriteLine("|          /|\\");
-            Console.WriteLine("|          / \\");
-            Console.WriteLine("|");
-            Console.WriteLine("|\\_____________");
+            HangmanLogo();
             Console.WriteLine("Possible topics:");
             Console.WriteLine("1. Countries");
             Console.WriteLine("2. Cities");
@@ -109,6 +95,43 @@
             Console.WriteLine("|\\_____________");
 
 
+        }
+
+        public static void PrintLettersGuessed()
+        {
+            if (GameParameters.GuessedLetters.Count != 0)
+            {
+                Console.WriteLine("Letters that you guessed already:");
+                foreach (var item in GameParameters.GuessedLetters)
+                {
+                    Console.Write($"{item}, ");
+                }
+            }
+            Console.WriteLine();
+        }
+        public static void PrintWordsGuessed()
+        {
+            if (GameParameters.GuessedWords.Count != 0)
+            {
+                Console.WriteLine("Words that you guessed already:");
+                foreach (var item in GameParameters.GuessedWords)
+                {
+                    Console.Write($"{item}, ");
+                }
+            }
+        }
+
+        public static void HangmanLogo()
+        {
+            Console.Clear();
+            Console.WriteLine("    HANGMAN");
+            Console.WriteLine("+______________");
+            Console.WriteLine("|/          |");
+            Console.WriteLine("|           O");
+            Console.WriteLine("|          /|\\");
+            Console.WriteLine("|          / \\");
+            Console.WriteLine("|");
+            Console.WriteLine("|\\_____________\n");
         }
     }
 }
